@@ -1,0 +1,31 @@
+import { Routes } from '@angular/router';
+import { BasicPageComponent } from './pages/basic-page/basic-page.component';
+import { SwitchesPageComponent } from './pages/switches-page/switches-page.component';
+import { DynamicPageComponent } from './pages/dynamic-page/dynamic-page.component';
+
+export const reactiveRoutes: Routes = [
+  {
+    path: '',
+    children: [
+      {
+        path: 'basics',
+        title: 'Basics',
+        component: BasicPageComponent,
+      },
+      {
+        path: 'dynamics',
+        title: 'Dynamics',
+        component: DynamicPageComponent,
+      },
+      {
+        path: 'switches',
+        title: 'Switches',
+        component: SwitchesPageComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'basics',
+      },
+    ],
+  },
+];
