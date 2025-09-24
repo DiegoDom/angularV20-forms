@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
   selector: 'app-basic-page',
@@ -9,6 +10,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class BasicPageComponent {
   fb = inject(FormBuilder);
+  formUtils = FormUtils;
 
   //**! NOT USE */
   /* myForm = new FormGroup({
@@ -23,26 +25,13 @@ export class BasicPageComponent {
     stock: [0, [Validators.required, Validators.min(0)]],
   });
 
-  isInvalidField(fieldName: string): boolean | null {
-    return !!this.myForm.controls[fieldName].errors;
-  }
-
-  getFieldError(fieldName: string): string | null {
-    if (!this.myForm.controls[fieldName]) return null;
-
-    const errors = this.myForm.controls[fieldName].errors ?? {};
-
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return `The field ${fieldName} is required`;
-        case 'minlength':
-          return `The field ${fieldName} must have at least ${errors['minlength'].requiredLength} characters`;
-        case 'min':
-          return `The field ${fieldName} value must be greater than ${errors['min'].min}`;
-      }
+  onSubmit() {
+    if (this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
+      return;
     }
 
-    return null;
+    console.log(this.myForm.value);
+    this.myForm.reset();
   }
 }
